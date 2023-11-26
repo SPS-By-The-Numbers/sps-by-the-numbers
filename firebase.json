@@ -1,26 +1,27 @@
 {
   "functions": {
+    "runtime": "nodejs20",
     "source": "functions",
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint"
     ]
   },
   "hosting": {
-    "public": "out",
+    "site": "transcripts-spsbtn",
+    "source": ".",
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
     ],
-    "cleanUrls": true,
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
+    "frameworksBackend": {
+      "region": "us-west1"
+    }
   },
   "storage": {
     "rules": "storage.rules"
+  },
+  "database": {
+    "rules": "database.rules.json"
   }
 }

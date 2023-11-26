@@ -1,28 +1,24 @@
 import path from 'path';
+import { get, child } from "firebase/database"
+import { dbRoot } from 'utilities/firebase';
 import { readdir, readFile } from 'fs/promises';
 import { Dirent, existsSync } from 'fs';
 import { compareAsc, isEqual, parseISO, startOfDay } from 'date-fns';
 
+const pathDateFormat = 'yyyy-MM-dd';
+
+
 export type VideoData = {
     metadata: any, // TODO: replace these with schema objects
     props: any,
-    date: Date,
+    date: string,
     transcriptionPath: string
 }
 
-function buildTranscriptFolderPath(category: string, id: string): string {
-    return path.join(process.cwd(), 'data', 'transcripts', category, id[0]);
-}
-
 export async function getAllCategories(): Promise<string[]> {
-    const entries: Dirent[] = await readdir(
-        path.join(process.cwd(), 'data', 'transcripts'),
-        { withFileTypes: true }
-    );
+    const result = (await get(dbRoot)).val();
 
-    return entries
-        .filter(entry => entry.isDirectory())
-        .map(entry => entry.name);
+    return Object.keys(result);
 }
 
 export async function getAllVideosForCategory(category: string): Promise<VideoData[]> {
@@ -72,7 +68,7 @@ export async function getAllVideosForCategory(category: string): Promise<VideoDa
                 props = {};
             }
 
-            const date: Date = parseISO(props.date || metadata.publish_date);
+            const date: string = props.date || metadata.publish_date;
             const transcriptionPath: string = path.join(prefixPath, `${videoId}.json`);
 
             const videoData: VideoData = {
@@ -89,52 +85,32 @@ export async function getAllVideosForCategory(category: string): Promise<VideoDa
     return allVideos;
 }
 
-export async function getDatesForCategory(category: string): Promise<Date[]> {
-    const allVideos = await getAllVideosForCategory(category);
-
-    // https://stackoverflow.com/a/44906207
-    const uniqueDates = allVideos.map(video => video.date)
-      .filter((date, i, self) => 
-          self.findIndex(d => isEqual(d, date)) === i);
-    return uniqueDates.sort(compareAsc);
+export async function getDatesForCategory(category: string): Promise<string[]> {
+    const result = (await get(dbRoot)).child(`${category}/index/date`).val();
+    return Object.keys(result);
 }
 
-export async function getAllVideosForPublishDate(category: string, date: Date): Promise<VideoData[]> {
-    const categoryVideos: VideoData[] = await getAllVideosForCategory(category);
+export async function getAllVideosForPublishDate(category: string, datePath: string): Promise<VideoData[]> {
+    const result = (await get(dbRoot)).child(`${category}/index/date/${datePath}`).val();
 
-    return categoryVideos
-        .filter((video: VideoData) => {
-            return isEqual(startOfDay(video.date), startOfDay(date));
-        });
+    return Object.entries(result).map(([videoId, metadata]) => ({
+      metadata,
+      props: {},
+      date: datePath,
+      transcriptionPath: "hi"
+    }));
 }
 
-export async function getVideoForDateAndId(category: string, date: Date, videoId: string): Promise<VideoData> {
-    const allVideosForDate: VideoData[] = await getAllVideosForPublishDate(category, date);
-
-    return allVideosForDate.find(video => video.metadata.video_id === videoId);
-}
-
-export async function getTranscript(category: string, id: string): Promise<any> {
-    const transcriptPath = path.join(buildTranscriptFolderPath(category, id), `${id}.json`);
-    return await readFile(transcriptPath, { encoding: 'utf8' }).then(
-        JSON.parse
-    ).catch((err) => {
-        if (err.code === 'ENOENT') {
-            return { segments: [] };
-        }
-        else {
-            return Promise.reject(err);
-        }
-    });
+export async function getMetadata(category: string, id: string): Promise<any> {
+    return (await get(dbRoot)).child(`${category}/metadata/${id}`).val();
 }
 
 export async function getSpeakerMapping(category: string, id: string): Promise<any> {
+/*
+    const speakersRootRef = Storage.ref(makeTranscriptsRootRef(category), 'speakers');
     const speakerPath: string = path.join(buildTranscriptFolderPath(category, id), `${id}.speakers.json`);
+    */
 
-    // Not all transcripts are expected to be mapped, so handle missing files by returning an empty object
-    if (!existsSync(speakerPath)) {
-        return {};
-    }
 
-    return JSON.parse(await readFile(speakerPath, { encoding: 'utf8' }));
+    return {};
 }

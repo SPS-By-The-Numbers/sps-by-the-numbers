@@ -7,12 +7,12 @@ jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
     runs-on: ubuntu-latest
+    permissions:
+      checks: write
+      contents: read
+      pull-requests: write
     steps:
       - uses: actions/checkout@v3
-
-      - uses: actions/setup-node@v2
-        with:
-          node-version: 16
 
       - name: Cache node modules
         id: cache-npm
@@ -28,10 +28,27 @@ jobs:
             ${{ runner.os }}-build-
             ${{ runner.os }}-
 
+      - if: ${{ steps.cache-npm.outputs.cache-hit != 'true' }}
+        name: List the state of node modules
+        continue-on-error: true
+        run: npm list; npm --prefix functions list
+
+      - name: Cache firebase emulators
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/firebase/emulators
+          key: ${{ runner.os }}-firebase-${{ steps.cache-npm.outputs.firebase-tools }}
+
+      # Only ci, no build. The action-hosting-deploy with the webframeworks does the build.
       - run: npm ci
-      - run: npm run build
+
+      # Firebase webframeworks doesn't do npm install on the functions directory.
+      - run: npm --prefix functions install
+
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_SPS_BY_THE_NUMBERS }}'
           projectId: sps-by-the-numbers
+        env:
+          FIREBASE_CLI_EXPERIMENTS: webframeworks
