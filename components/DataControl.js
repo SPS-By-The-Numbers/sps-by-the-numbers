@@ -1,7 +1,7 @@
 import React from 'react';
 import Highcharts from 'highcharts'
 
-function DataControl({data, report_type, survey, stacked, subjects, onChange}) {
+function DataControl({data, year, report_type, survey, stacked, subjects, onChange}) {
   if (!data) {
     return (<div>Loading Data</div>);
   }
@@ -13,6 +13,9 @@ function DataControl({data, report_type, survey, stacked, subjects, onChange}) {
     ));
     return options;
   };
+
+  const availableYears = [ 2023, 2022 ];
+  const year_options = makeOptions(availableYears);
 
   // Setup report type Elements.
   const raw_report_types = Object.keys(data);
@@ -41,6 +44,10 @@ function DataControl({data, report_type, survey, stacked, subjects, onChange}) {
 
   return (
     <section className="p-2 h-full w-full min-h-screen items-stretch justify-items-stretch bg-gray-300 space-x-1">
+      <label htmlFor="report-type">Report Year:</label>
+      <select name="report-year" value={year} data-type="year" onChange={onChange}>
+          {year_options}
+      </select>
       <label htmlFor="report-type">Report Type:</label>
       <select name="report-type" value={report_type} data-type="report" onChange={onChange}>
           {report_type_options}
