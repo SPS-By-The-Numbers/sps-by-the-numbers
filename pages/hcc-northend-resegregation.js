@@ -49,7 +49,7 @@ export default function Cascadia({ hccRace }) {
         </ul>
 
         <p> Because of the false assumption that HCC is more white, the HCC removal will re-segregate these
-        students. If we imagined a world where all of the existing students of color were sent back to their neighborhood schools, about 180 / 234 would end up in schools with equal of fewer peers that identify with the same race. (All Asians end up more isolated in any other school. Most multi-racial students too. 1/2 the Black students are in schools of similar or lower number numbers. Very few end up "better off".).
+        students. If we imagined a world where all of the existing students of color were sent back to their neighborhood schools, about 180 / 234 would end up in schools with equal of fewer peers that identify with the same race. (All Asians end up more isolated in any other school. Most multi-racial students too. 1/2 the Black students are in schools of similar or lower number numbers. Very few end up &quot;better off&quot;.).
         </p>
         <p> Furthermore, because staffing up a program to support HCC-style differentiation in each school requires at least some minimal staffing overhead, a policy to break the cluster and redistribute resources will assign more resources to whiter populations by about 2.5x-3x (assuming 1 new teacher per school). This is because the schools themselves are segregated.</p>
         <p> See the <a href="https://medium.com/@awongawong/sps-misunderstands-its-own-gifted-program-1816665d86b">(not fully data centric) letter I wrote to the board</a> here</p>

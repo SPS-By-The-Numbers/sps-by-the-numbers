@@ -43,7 +43,7 @@ export default function ItemList({
           />
         ))}
         {Object.values(items).filter(d => d.type === 'option').map(({itemId, name, options, value}, i) => (
-          <div style={{ background: 'cyan' }}>
+          <div key={`${itemId}-option`} style={{ background: 'cyan' }}>
             <label htmlFor={itemId}>{name}</label>
             <Select
               isMulti={true}
