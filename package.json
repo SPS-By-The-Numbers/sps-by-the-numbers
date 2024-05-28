@@ -1,14 +1,15 @@
 {
   "name": "sps-by-the-numbers",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
+    "dev": "next dev",
+    "deploy": "firebase deploy --only hosting:apps",
     "postbuild": "next-sitemap",
-    "start": "next start",
     "lint": "next lint",
-    "deploy": "firebase deploy --only hosting"
+    "setupFirebase": "firebase target:apply hosting apps apps-sps-by-the-numbers",
+    "start": "next start"
   },
   "devDependencies": {
     "@mdx-js/loader": "^2.1.1",
@@ -23,6 +24,7 @@
     "eslint": "8.14.0",
     "eslint-config-next": "12.1.5",
     "firebase": "^9.7.0",
+    "firebase-admin": "^12.0.0",
     "firebase-tools": "^12.7.0",
     "highcharts": "^10.1.0",
     "highcharts-react-official": "^3.1.0",

@@ -6,6 +6,7 @@
     ]
   },
   "hosting": {
+    "target": "apps",
     "public": "out",
     "ignore": [
       "firebase.json",

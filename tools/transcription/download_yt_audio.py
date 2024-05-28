@@ -73,9 +73,11 @@ else:
 
 
 
-playlist = Playlist(args.playlist)
-for v in playlist.videos:
+#playlist = Playlist(args.playlist)
+#for v in playlist.videos:
+def foo():
     # Check if json file exists for video and is parseable.
+    v = YouTube('https://www.youtube.com/watch?v=o9WtiLdhsgM')
     video_id = v.video_id
     outfile_base = get_outfile_base(args.outdir, video_id)
     metadata_path = '%s.metadata.json' % outfile_base
@@ -93,12 +95,12 @@ for v in playlist.videos:
 
             # Do the download, always overwriting. The parseable metadata file is the
             # completion flag.
-            audio_streams = v.streams.filter(only_audio=True).order_by('abr')
-            audio_streams.first().download(
-                    output_path=outfile_dir,
-                    filename=outfile_name,
-                    max_retries=5,
-                    skip_existing=args.skip)
+#            audio_streams = v.streams.filter(only_audio=True).order_by('abr')
+#            audio_streams.first().download(
+#                    output_path=outfile_dir,
+#                    filename=outfile_name,
+#                    max_retries=5,
+#                    skip_existing=args.skip)
 
             # Download completed. Time to write metadata.
             with open(metadata_path, "w") as f:
@@ -120,6 +122,6 @@ for v in playlist.videos:
     logging.info("Pausing %d" % pause_secs)
     sleep(pause_secs)
 
-
+foo();
 
 
