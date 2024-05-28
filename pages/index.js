@@ -13,7 +13,7 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>
-	<img className="object-scale-down h-24 inline" src="/logo.png" />SPS By The Numbers
+	<img className="object-scale-down h-24 inline" src="/logo.png" alt="logo" />SPS By The Numbers
         </h1>
 
         <p className={styles.description}>
@@ -30,7 +30,7 @@ On Nov 5th/6th, one of the parents on HCC Seattle Elementary Schools FB group st
 
           <div className={styles.card}>
             <Link href="https://experience.arcgis.com/experience/a52ef1e7b30c4130bf8ac3d59970650b/" passHref={true}>
-              <h2>Beth Day's Neighborhood Elementary School Data map</h2>
+              <h2>Beth Day&apos;s Neighborhood Elementary School Data map</h2>
               Use the linked map to explore enrollment, building capacity, and building condition for neighborhood attendance area elementary schools in the Seattle Public Schools system. Layers showing percentages of student populations of special interest are also available (including non-white, Black/African-American, English Language Learners, highly mobile, homeless, low income, Section 504, and disabled). Also included are layers derived from the 2020 USA Census data.
             </Link>
           </div>

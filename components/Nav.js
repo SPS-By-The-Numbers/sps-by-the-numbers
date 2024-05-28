@@ -44,7 +44,7 @@ export default function Nav() {
 
                 <a href="/tools/panorama-slicer" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Panorama Slicer</a>
 
-                <a target="_blank" href="https://andrewbcooper.shinyapps.io/spsstarttimes/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Andy's Start-Times Tool ⧉</a>
+                <a target="_blank" href="https://andrewbcooper.shinyapps.io/spsstarttimes/" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Andy&apos;s Start-Times Tool ⧉</a>
 
                 <a href="/hcc-northend-resegregation" className="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium">HCC Removal Resegregates Northend</a>
 
@@ -67,7 +67,7 @@ export default function Nav() {
 
           <a href="/tools/panorama-slicer" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Panorama Slicer</a>
 
-          <a target="_blank" href="https://andrewbcooper.shinyapps.io/spsstarttimes/" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Andy's Start-Times Tool ⧉</a>
+          <a target="_blank" href="https://andrewbcooper.shinyapps.io/spsstarttimes/" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">Andy&apos;s Start-Times Tool ⧉</a>
           <a href="/hcc-northend-resegregation" className="text-gray-300 hover:bg-gray-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium">HCC Removal Resegregates Northend</a>
           <a href="/about" className="text-gray-300 text-white px-3 py-2 rounded-md text-sm font-medium" aria-current="page">About</a>
         </div>
