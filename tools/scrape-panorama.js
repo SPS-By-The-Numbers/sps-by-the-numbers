@@ -16,6 +16,8 @@
 //  console.save(allResults, 'results.json')
 //
 // And you should get a results.json object downloaded.
+//
+// Run it on any webpage.
 
 async function loadPage(w, url) {
   w.location.replace(url);

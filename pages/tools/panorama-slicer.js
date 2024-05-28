@@ -6,8 +6,8 @@ import HighchartsReact from 'highcharts-react-official'
 
 import DataControl from '../../components/DataControl'
 import Histogram from '../../components/Histogram'
-import data2019 from '../../data/panorama/2019.json'
 import data2022 from '../../data/panorama/2022.json'
+import data2023 from '../../data/panorama/2023.json'
 
 // This specifies the sort order for answers. The min and max values
 // also double as the mix/max of the graph. The exact value of other
@@ -50,6 +50,7 @@ class App extends React.Component {
     };
 
     this.handleChange = this.handleChange.bind(this);
+    this.loadData = this.loadData.bind(this);
   }
 
   handleChange(event) {
@@ -74,21 +75,39 @@ class App extends React.Component {
       const selected_subjects = [...this.state.selected_subjects];
       selected_subjects[parseInt(target.dataset.ordinal)] = event.target.value;
       this.setState({ selected_subjects });
+    } if (type === "year") {
+      this.loadData(target.value);
     }
   }
 
-  componentDidMount() {
-    const data = data2022;
+  loadData(year) {
+    let data = null;
+    if (year == 2023) {
+      data = data2023;
+    } else if (year == 2022) {
+      data = data2022;
+    } else {
+      // Default ot current year.
+      year=2023;
+      data = data2023;
+    }
+
     const new_state = {
-      reports: data['reports'],
-      selected_report_type: Object.keys(data['reports'])[0],
-      selected_subjects: [...this.initial_selected_subjects]
+        year,
+        reports: data['reports'],
+        selected_report_type: Object.keys(data['reports'])[0],
+        selected_subjects: [...this.initial_selected_subjects]
     };
     new_state.selected_survey = Object.keys(new_state.reports[new_state.selected_report_type])[0];
     const subjects = Object.keys(new_state.reports[new_state.selected_report_type][new_state.selected_survey]);
-//    new_state.selected_subjects[0] = subjects[0];
-//    new_state.selected_subjects[1] = subjects[1];
+    //    new_state.selected_subjects[0] = subjects[0];
+    //    new_state.selected_subjects[1] = subjects[1];
+
     this.setState(new_state);
+  }
+
+  componentDidMount() {
+    this.loadData(2023);
   }
 
   calculateDistictivenessScore(series) {
@@ -258,7 +277,7 @@ class App extends React.Component {
     return (
       <main className="app-main">
         <header className="p-2 h-full w-full min-h-screen items-stretch justify-items-stretch bg-gray-300 space-x-1">
-          <h4 className="p-2 font-bold">Seattle Public Schools Panorama Comparison Tool, 2022 data (<a href="https://sps-panorama.web.app/">2019 here</a>)</h4>
+          <h4 className="p-2 font-bold">Seattle Public Schools Panorama Comparison Tool, 2022-2023 data (<a href="https://sps-panorama.web.app/">2019 here</a>)</h4>
           <section className="p-2 whitespace-normal tracking-normal space-x-1">
               <p>Data taken scraped using <a href="https://github.com/awong-dev/sps-by-the-numbers/blob/main/tools/scrape-panorama.js">a javascript blob</a> run on Panorama data viewer portal linked from the 
               <a href="https://www.seattleschools.org/departments/rea/district-surveys/">SPS District Survey</a> page.  Note in 2022, not every survey had a lot of responses. Hover over bar graphs to check the &quot;n&quot;.
@@ -269,6 +288,7 @@ class App extends React.Component {
           </section>
           <DataControl
             data={this.state.reports}
+            year={this.state.year}
             report_type={this.state.selected_report_type}
             survey={this.state.selected_survey}
             stacked={this.state.stacked}
